@@ -1,28 +1,39 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <navbar/>
+    <router-view/>
+    <!-- <b-container class = "bv-example-row">
+        <b-row>
+          <b-col>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo consequuntur aliquid consequatur beatae tempora neque asperiores corrupti, modi possimus eius illum suscipit labore autem esse dolore fuga adipisci itaque harum!</b-col>
+          <b-col>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo consequuntur aliquid consequatur beatae tempora neque asperiores corrupti, modi possimus eius illum suscipit labore autem esse dolore fuga adipisci itaque harum!</b-col>
+          <b-col>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo consequuntur aliquid consequatur beatae tempora neque asperiores corrupti, modi possimus eius illum suscipit labore autem esse dolore fuga adipisci itaque harum!</b-col>
+        </b-row>
+    </b-container>
+
+    
+    <div class="container">
+      <div class="row">
+        <div class="col">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
+        <div class="col">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ducimus, possimus. Sed amet esse veniam, optio nihil ad neque facilis perspiciatis et delectus quasi doloremque totam. Fugiat provident facere earum. Quasi?</div>
+        <div class="col">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis, magni corporis alias deleniti enim rerum repellendus, et molestias voluptate suscipit facere ducimus voluptas natus soluta neque accusantium! Consequuntur, et cumque.</div>
+      </div>
+    </div> -->
   </div>
+
+
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Navbar from './components/Navbar'
 
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    Navbar
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>
