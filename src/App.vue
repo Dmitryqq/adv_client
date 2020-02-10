@@ -24,12 +24,18 @@
 </template>
 
 <script>
-import Navbar from './components/Navbar'
+import Navbar from './components/Navbar';
+// import { USER_REQUEST } from "./store/actions/user";
 
 export default {
   name: 'app',
   components: {
     Navbar
+  },
+  created: function() {
+    // if (this.$store.getters.isAuthenticated) {
+      
+    // }
   }
 }
 </script>

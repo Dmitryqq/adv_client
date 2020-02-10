@@ -17,7 +17,16 @@ const actions = {
         }
         else
             return;
-    } 
+    },
+    async getChannelsTariffs({ rootState}){
+        try {
+            const response = await axios.get(rootState.apiPrefix + '/all/channels/tariffs')
+            return response.data;
+        }
+        catch(err){
+            console.log(err);
+        }
+    }
 }
 
 export default{

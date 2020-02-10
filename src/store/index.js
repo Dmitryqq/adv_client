@@ -7,6 +7,8 @@ import statuses from './modules/statuses'
 import tariffs from './modules/tariffs'
 import advertisements from './modules/advertisements'
 import channels from './modules/channels'
+// import user from "./modules/user";
+import auth from "./modules/auth";
 
 Vue.use(Vuex)
 
@@ -17,7 +19,9 @@ export default new Vuex.Store({
     statuses,
     tariffs,
     advertisements,
-    channels
+    channels,
+    // user,
+    auth
   },
   state:{
       apiPrefix: 'http://localhost:5000'

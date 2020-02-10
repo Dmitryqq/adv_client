@@ -1,12 +1,12 @@
 <template>
-<panel header = "Список каналов">
+    <panel header = "Список каналов">
         <table border="1" class="table">
             <tr>
                 <td><b>№</b></td>
-                <td><b>username</b></td>
                 <td><b>name</b></td>
-                <td><b>phone</b></td>
-                <td><b>email</b></td>
+                <td><b>description</b></td>
+                <td><b>logo</b></td>
+                <td><b>max_ads_per_day</b></td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -27,6 +27,8 @@
                 <td><input class="form-control" type="text" name="name" v-model="user.name"></td>
                 <td><input class="form-control" type="text" name="phone" v-model="user.phone"></td>
                 <td><input class="form-control" type="text" name="email" v-model="user.email"></td> -->
+                <td></td>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -64,7 +66,6 @@ export default {
                 this.error = err.message;
             })   
             .finally(()=>{
-                console.log(this.channels)
                 this.isLoading = false; 
             })    
         }
