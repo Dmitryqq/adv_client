@@ -8,7 +8,10 @@ const actions = {
     async getUsers({state, dispatch, rootState}){
         if(state.users || state.users.lenght<1){
             try {
-                const response = await axios.get(rootState.apiPrefix + '/users')
+                const token = localStorage.getItem('token')
+                const response = await axios.get(rootState.apiPrefix + '/users',
+                     { headers: { 'Authorization': 'Bearer '+ token }}
+                )
                 state.users = response.data;
             }
             catch(err){

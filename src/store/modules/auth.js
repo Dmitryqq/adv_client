@@ -56,11 +56,21 @@
     //         });
     //   });
     },
+    async registerUser({rootState}, userData){
+      try{
+          const response = await axios.post(rootState.apiPrefix + `/auth/register`, userData)
+          if(response.data.error)
+                throw new Error(response.data.error);
+      }
+      catch(err) {
+          console.log(err)
+      }
+  },
     async decodeUser({commit}){
         const token = localStorage.getItem('token');
         if(token){
             const dtoken = jwtDecode(token);
-            commit("setUser",{id:dtoken.id, username: dtoken.username, role: dtoken.role}); 
+            commit("setUser",{id:dtoken.userId, username: dtoken.username, role: dtoken.role}); 
         } 
     },
     logout({commit}){

@@ -7,11 +7,12 @@
 
         <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent"> -->
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <router-link to="/" class="nav-link">Home</router-link>
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                    <!-- <router-link to="/" class="nav-link">Home</router-link> -->
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
+                    <a class="nav-link" href="/create">Create</a>
                 </li>
                 
                 <li class="nav-item">
@@ -19,21 +20,24 @@
                 </li>
             </ul>
         <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-            <a class="nav-link" href="#">
-            <i class="fa fa-bell fa-lg">
-                <span class="badge badge-info">11</span>
-            </i>
-            </a>
-        </li>
+            <li v-if="user!=null" class="nav-item">
+                <a class="nav-link" href="#">
+                <i class="fa fa-bell fa-lg">
+                    <span class="badge badge-info">11</span>
+                </i>
+                </a>
+            </li>
             <div v-if="user!=null">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Welcome, {{user.username}}
                     </a>
+                    <!-- Главный админ -->
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another</a>
+                        <div v-if="user.role == 'Главный администратор'">
+                            <a class="dropdown-item" href="/channels">Каналы</a>
+                            <a class="dropdown-item" href="/channels/admins">Админы каналов</a>
+                        </div>
                     <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="" @click="logout">Выйти</a>
                     </div>
@@ -72,7 +76,11 @@ export default {
         logout(){
             this.$store.dispatch('auth/logout')
             .then(()=>{
-                this.$router.replace({path: this.$route.query.redirect || '/'})
+                this.$router.push('/').catch(error => {
+                    if (error.name != "NavigationDuplicated") {
+                        throw error;
+                    }
+                });
                 // this.$router.push('/')
             })
         }

@@ -6,8 +6,8 @@ import store from './store'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-import axios from 'axios'
 import jwtDecode from 'jwt-decode'
+import VCalendar from 'v-calendar'
 
 Vue.config.productionTip = false
 
@@ -17,10 +17,15 @@ Vue.use(BootstrapVue)
 // Optionally install the BootstrapVue icon components plugin
 Vue.use(IconsPlugin)
 
-const token = localStorage.getItem('user-token')
-if (token) {
-  axios.defaults.headers.common['Authorization'] = token
-}
+Vue.use(VCalendar, {
+  componentPrefix: 'vc'
+});
+
+
+// const token = localStorage.getItem('user-token')
+// if (token) {
+//   axios.defaults.headers.common['Authorization'] = token
+// }
 
 export const router = new VueRouter({
   routes,
@@ -42,6 +47,7 @@ router.beforeEach(async (to, from, next) => {
   const dtoken = jwtDecode(localStorage.token);
   const expDate = new Date(dtoken.exp * 1000)
   if(expDate < new Date()) {
+    localStorage.removeItem("token");
     return next({ 
       path: '/login',
       query: { redirect: to.fullPath }

@@ -24,14 +24,21 @@
                                 <div class="form-group">
                                     <label for="uname1">Username</label>
                                     <input type="text" class="form-control form-control-lg rounded-0" v-model="user.username" required="">
-                                    <div class="invalid-feedback">Oops, you missed this one.</div>
                                 </div>
                                 <div class="form-group">
                                     <label>Password</label>
                                     <input type="password" class="form-control form-control-lg rounded-0" v-model="user.password" required="" autocomplete="new-password">
-                                    <div class="invalid-feedback">Enter your password too!</div>
                                 </div>
-                                <button type="submit" class="btn btn-success btn-lg float-right">Login</button>
+                                <div>
+                                    <label class="custom-control custom-checkbox">
+                                      <input type="checkbox" class="custom-control-input">
+                                      <span class="custom-control-indicator"></span>
+                                      <span class="custom-control-description small text-dark">Remember me on this computer</span>
+                                    </label>
+                                </div>
+                                
+                                <button class="btn btn-success btn float-none" @click="goToRegister()">Register</button>
+                                <button type="submit" class="btn btn-primary btn float-right">Login</button>
                             </form>
                         </div>
                     </div>
@@ -77,6 +84,9 @@ export default {
                     this.user.password = '';
                 })
             }
+        },
+        goToRegister(){
+            this.$router.replace({path: '/register'})
         }
     }
 }
