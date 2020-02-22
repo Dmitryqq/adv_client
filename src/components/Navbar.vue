@@ -33,10 +33,12 @@
                         Welcome, {{user.username}}
                     </a>
                     <!-- Главный админ -->
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/ads">Мои объявления</a>
                         <div v-if="user.role == 'Главный администратор'">
                             <a class="dropdown-item" href="/channels">Каналы</a>
                             <a class="dropdown-item" href="/channels/admins">Админы каналов</a>
+                            <a class="dropdown-item" href="/channels/agents">Агенты каналов</a>
                         </div>
                     <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="" @click="logout">Выйти</a>

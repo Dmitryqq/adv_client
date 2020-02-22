@@ -18,6 +18,22 @@ const actions = {
         else
             return;
     },
+    async getMyAdvertisements({state, rootState}){
+        if(state.advertisements || state.advertisements.lenght<1){
+            try {
+                const token = localStorage.getItem('token')
+                const response = await axios.get(rootState.apiPrefix + '/myads',
+                { headers: { 'Authorization': 'Bearer '+ token }})
+                console.log(response.data)
+                state.advertisements = response.data;
+            }
+            catch(err){
+                console.log(err);
+            }
+        }
+        else
+            return;
+    },
     async getAdvertisementChannel({rootState}, id){
         try {
             const response = await axios.get(rootState.apiPrefix + `/ads/${id}/channel`)

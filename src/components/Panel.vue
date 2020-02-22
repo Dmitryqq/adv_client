@@ -31,7 +31,7 @@ export default {
     display: inline-block;
 }
 .panel{
-    box-shadow: 0 0px 3px #ccc;
+    box-shadow: 0 0px 0px #ccc;
     width: 95%;
     float: right;
     text-align-last: center; 

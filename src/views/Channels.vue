@@ -129,34 +129,40 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 img{
     width: 150px;
     height: 70px;
 }
 table{
-    word-break: normal;
+    word-break: break-all;
     text-align-last: left;
 }
 td:nth-child(1){
     width: 3%;
 }
 td:nth-child(2){
-    width:10%;
+    width: 8%;
 }
 td:nth-child(3){
     width: 20%;
 }
 td:nth-child(4){
-    width: 20%;
+    width: 5%;
 }
 td:nth-child(5){
-    width: 10%;
+    width: 8%;
 }
 td:nth-child(6){
     width: 10%;
 }
 td:nth-child(7){
     width: 10%;
+}
+td:nth-child(8){
+    width: 3%;
+}
+td:nth-child(9){
+    width: 3%;
 }
 </style>

@@ -22,6 +22,19 @@ const actions = {
         else
             return;
     },
+    async getMyChannels({dispatch, rootState}){
+        try {
+            const token = localStorage.getItem('token')
+            const response = await axios.get(rootState.apiPrefix + '/admin/mychannels',
+            { headers: { 'Authorization': 'Bearer '+ token }}
+            )
+            return response.data;
+        }
+        catch(err){
+            dispatch('handleError',err.response,{ root: true });
+            throw(err);
+        }
+    },
     async addChannel({rootState, commit}, channel){
         try {    
             const token = localStorage.getItem('token')
@@ -45,7 +58,16 @@ const actions = {
     },
     async getChannelsAdmins({ rootState}){
         try {
-            const response = await axios.get(rootState.apiPrefix + '/all/users/channels')
+            const response = await axios.get(rootState.apiPrefix + '/all/channels/admins')
+            return response.data;
+        }
+        catch(err){
+            console.log(err);
+        }
+    },
+    async getChannelsAgents({ rootState}){
+        try {
+            const response = await axios.get(rootState.apiPrefix + '/all/channels/agents')
             return response.data;
         }
         catch(err){
@@ -55,7 +77,19 @@ const actions = {
     async addChannelAdmin({ rootState}, channelAdmin){
         try {
             const token = localStorage.getItem('token')
-            const response = await axios.post(rootState.apiPrefix + `/users/${channelAdmin.userId}/channels`, channelAdmin,
+            const response = await axios.post(rootState.apiPrefix + `/channel/admin`, channelAdmin,
+            { headers: { 'Authorization': 'Bearer '+ token }})
+            console.log(response.data)
+            return response.data;
+        }
+        catch(err){
+            console.log(err);
+        }
+    },
+    async addChannelAgent({ rootState}, channelAgent){
+        try {
+            const token = localStorage.getItem('token')
+            const response = await axios.post(rootState.apiPrefix + `/channel/agent`, channelAgent,
             { headers: { 'Authorization': 'Bearer '+ token }})
             console.log(response.data)
             return response.data;

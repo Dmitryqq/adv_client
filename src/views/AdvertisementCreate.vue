@@ -113,7 +113,6 @@ export default {
                     this.channels.forEach(channel => {
                         if(this.checkFields(channel)){
                             // let advChannel = await this.generateAdvChannel(channel, res.id);'
-                            console.log(channel.id)
                             let advChannel = {};
                             advChannel.channelId = channel.id;
                             advChannel.advertisementId = res.id;
@@ -225,7 +224,7 @@ export default {
 
 <style scoped>
 .advcreate{
-    width: 80%;
+    width: 90%;
     margin: auto;
     /* padding-top: 20px; */
 }
@@ -329,6 +328,10 @@ input[type="checkbox"].switch_1{
 /* td{
     vertical-align: middle;
 } */
+img{
+    width: 150px;
+    height: 70px;
+}
 td:nth-child(1){
     width: 8%;
 }

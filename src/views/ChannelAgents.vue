@@ -1,32 +1,32 @@
 <template>
-    <panel header = "Админы каналов">
+    <panel header = "Агенты каналов">
         <table border="1" class="table table-hover shadow" width="100%">
             <tr>
                 <td><b>№</b></td>
                 <td><b>Канал</b></td>
-                <td><b>Администратор</b></td>
+                <td><b>Агент</b></td>
                 <td></td>
                 <td></td>
             </tr>
-            <tr v-for="channelAdmin in channelAdmins" :key="channelAdmin.id">
-                <td>{{ channelAdmin.id }}</td>
-                <td>{{ channelAdmin.channel.name }}</td>
-                <td>{{ channelAdmin.user.username }}</td>
+            <tr v-for="channelAgent in channelAgents" :key="channelAgent.id">
+                <td>{{ channelAgent.id }}</td>
+                <td>{{ channelAgent.channel.name }}</td>
+                <td>{{ channelAgent.user.username }}</td>
                 <td></td>
                 <td></td>
             </tr>
             <tr>
                 <td></td>
                 <td>
-                    <select class="form-control form-control-sm shadow" v-model="channelAdmin.channelId">
+                    <select class="form-control form-control-sm shadow" v-model="channelAgent.channelId">
                         <option disabled value=''>Канал</option>
                         <option v-for="channel in channels" :key="channel.id" :value="channel.id">
-                            {{ channel.name }}
+                            {{ channel.channel.name }}
                         </option>
                     </select>
                 </td>
                 <td>
-                    <select class="form-control form-control-sm shadow" v-model="channelAdmin.userId">
+                    <select class="form-control form-control-sm shadow" v-model="channelAgent.userId">
                         <option disabled value=''>Пользователь</option>
                         <option v-for="user in users" :key="user.id" :value="user.id">
                             {{ user.username }}
@@ -34,7 +34,7 @@
                     </select>
                 </td>
                 <td></td>
-                <td><button type="submit" class="btn btn-primary" @click="addChannelAdmin()">Добавить</button></td>
+                <td><button type="submit" class="btn btn-primary" @click="addchannelAgent()">Добавить</button></td>
             </tr>
         </table>
     </panel>
@@ -49,29 +49,31 @@ export default {
     },
     data: function(){
         return {
-            channelAdmin:{
+            channelAgent:{
                 channelId: '',
                 userId: ''
             },
-            channelAdmins: [],
+            channelAgents: [],
+            channels: []
         }
     },
     computed:{
-        channels(){
-            return this.$store.state.channels.channels;
-        },
         users(){
             return this.$store.state.users.users;
         }
     },
     created(){
-        this.getChannels()
+        this.getMyChannels()
         this.getUsers()
-        this.getChannelsAdmins()
+        this.getChannelsAgents()
     },
     methods: {
-        getChannels () {
-            this.$store.dispatch('channels/getChannels')
+        getMyChannels () {
+            this.$store.dispatch('channels/getMyChannels')
+            .then(res => {
+                console.log(res)
+                this.channels = res
+            })
             .catch(err=>{
                 this.error = err.message;
             })   
@@ -79,10 +81,10 @@ export default {
                 this.isLoading = false; 
             })    
         },
-        getChannelsAdmins () {
-            this.$store.dispatch('channels/getChannelsAdmins')
+        getChannelsAgents () {
+            this.$store.dispatch('channels/getChannelsAgents')
             .then(res => {
-                this.channelAdmins = res
+                this.channelAgents = res
             })
             .catch(err=>{
                 this.error = err.message;
@@ -100,9 +102,9 @@ export default {
                 this.isLoading = false; 
             })    
         },
-        addChannelAdmin(){
+        addchannelAgent(){
             try{
-                this.$store.dispatch('channels/addChannelAdmin', this.channelAdmin)
+                this.$store.dispatch('channels/addchannelAgent', this.channelAgent)
                 .then(
                     console.log("nice")
                 )

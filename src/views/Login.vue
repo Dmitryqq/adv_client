@@ -1,15 +1,4 @@
 <template>
- <!-- <div>
-   <form class="login" @submit.prevent="login">
-     <h1>Sign in</h1>
-     <label>User name</label>
-     <input required v-model="user.username" type="text" placeholder="Snoopy"/>
-     <label>Password</label>
-     <input required v-model="user.password" type="password" placeholder="Password"/>
-     <hr/>
-     <button type="submit">Login</button>
-   </form>
- </div> -->
  <div class="container">
     <div class="row">
         <div class="col-md-12 mx-auto">
@@ -37,7 +26,7 @@
                                     </label>
                                 </div>
                                 
-                                <button class="btn btn-success btn float-none" @click="goToRegister()">Register</button>
+                                <button type="button" class="btn btn-success btn float-none" @click="goToRegister()">Register</button>
                                 <button type="submit" class="btn btn-primary btn float-right">Login</button>
                             </form>
                         </div>
