@@ -1,26 +1,24 @@
 <template>
-    <div class="my_ads shadow">
+    <div class="ads_on_my_channel shadow">
         <div class="form-group green-border-focus">
-            <label for="exampleFormControlTextarea5">Текст объявления</label>
+            <label for="exampleFormControlTextarea5">Мои каналы</label>
             <!-- Рекламы -->
-            <div class="card" v-for="advertisement in advertisements" :key="advertisement.id">
-                <div class="card-header" :id="advertisement.id">
+            <div class="card" v-for="channelAgent in channelAgents" :key="channelAgent.id">
+                <div class="card-header" :id="channelAgent.channel.id">
                     <h5 class="mb-0">
-                        <button class="btn btn-link" data-toggle="collapse" :data-target="'#collapse' + advertisement.id" aria-expanded="true" :aria-controls="'collapse' + advertisement.id">
-                            {{advertisement.adv_text}}
+                        <button class="btn btn-link" data-toggle="collapse" :data-target="'#collapse' + channelAgent.channel.id" aria-expanded="true" :aria-controls="'collapse' + channelAgent.channel.id">
+                            {{channelAgent.channel.name}}
                         </button>
-                        <!-- <label class="status">{{advertisement.status[0].name}}</label> -->
                     </h5>
                 </div>
 
-                <div :id="'collapse' + advertisement.id" class="collapse" :aria-labelledby="'heading' + advertisement.id" data-parent="#accordion">
+                <div :id="'collapse' + channelAgent.channel.id" class="collapse" :aria-labelledby="'heading' + channelAgent.channel.id" data-parent="#accordion">
                     <div class="card-body">
-                        <!-- Каналы -->
-                        <div class="card" v-for="adv_channel in advertisement.adv_channels" :key="adv_channel.id">
+                        <div class="card" v-for="adv_channel in channelAgent.channel.adv_channels" :key="adv_channel.id">
                             <div class="card-header" :id="adv_channel.id">
                                 <h5 class="mb-0">
                                     <button class="btn btn-link" data-toggle="collapse" :data-target="'#collapse' + adv_channel.id" aria-expanded="true" :aria-controls="'collapse' + adv_channel.id">
-                                        {{adv_channel.channel.name}}
+                                        {{adv_channel.advertisement.adv_text}}
                                     </button>
                                     <label class="status">{{adv_channel.status.name}}</label>
                                 </h5>
@@ -42,7 +40,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- конец -->
                     </div>
                 </div>
             </div>
@@ -66,22 +63,40 @@ export default {
                 dates: new Date()
             }
             ],
+            channelAgents: [],
+            currentPage: 1,
+            itemsPerPage: 10,
         }
     },
     computed:{
-        advertisements(){
-            return this.$store.state.advertisements.advertisements;
-        },
+        // advertisements(){
+        //     return this.$store.state.advertisements.advertisements;
+        // }
+        paginatedItems() {
+          let page = 1;
+          return [].concat.apply(
+             [], 
+             this.items.map( (item, index) => 
+                index % this.itemsPerPage ? 
+                   [] : 
+                   { page: page++, items: this.items.slice(index, index + this.itemsPerPage)}
+             )
+           );
+       },
+       currentPageItems() {
+          let currentPageItems = this.paginatedItems.find(pages => pages.page == this.currentPage);
+            return currentPageItems ? currentPageItems.items : [];
+       }
     },
     created(){
-        this.getMyAdvertisements()
+        this.getAdsOnMyChannel()
     },
     methods: {
-        getMyAdvertisements() {
-            this.$store.dispatch('advertisements/getMyAdvertisements')
-            // .then((res)=>{
-            //     this.advertisement = res;
-            // })
+        getAdsOnMyChannel() {
+            this.$store.dispatch('advertisements/getAdsOnMyChannel')
+            .then((res)=>{
+                this.channelAgents = res;
+            })
             .catch(err=>{
                 this.error = err.message;
             })   
@@ -100,13 +115,17 @@ export default {
                 dates: dates
             }]
             return attribut;
-        }
+        },
+        changePage(pageNumber) {
+          if(pageNumber !== this.currentPage)
+               this.currentPage = pageNumber;
+       }
     },
 }
 </script>
 
 <style>
-.my_ads{
+.ads_on_my_channel{
     width: 90%;
     margin: auto;
     padding: 20px;

@@ -22,12 +22,38 @@ const actions = {
         else
             return;
     },
-    async getMyChannels({dispatch, rootState}){
+    async getMyChannelsAdmin({dispatch, rootState}){
         try {
             const token = localStorage.getItem('token')
             const response = await axios.get(rootState.apiPrefix + '/admin/mychannels',
             { headers: { 'Authorization': 'Bearer '+ token }}
             )
+            return response.data;
+        }
+        catch(err){
+            dispatch('handleError',err.response,{ root: true });
+            throw(err);
+        }
+    },
+    async getMyChannelsAgent({dispatch, rootState}){
+        try {
+            const token = localStorage.getItem('token')
+            const response = await axios.get(rootState.apiPrefix + '/agent/mychannels',
+            { headers: { 'Authorization': 'Bearer '+ token }}
+            )
+            return response.data;
+        }
+        catch(err){
+            dispatch('handleError',err.response,{ root: true });
+            throw(err);
+        }
+    },
+    async getMyChannelsTariffs({dispatch, rootState}){
+        try {
+            const token = localStorage.getItem('token')
+            const response = await axios.get(rootState.apiPrefix + '/my/channels/tariffs',
+            { headers: { 'Authorization': 'Bearer '+ token }})
+            console.log(response.data)
             return response.data;
         }
         catch(err){

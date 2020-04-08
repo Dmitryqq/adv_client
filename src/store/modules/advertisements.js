@@ -34,6 +34,18 @@ const actions = {
         else
             return;
     },
+    async getAdsOnMyChannel({rootState}){
+        try {
+            const token = localStorage.getItem('token')
+            const response = await axios.get(rootState.apiPrefix + '/adsonmychannel',
+            { headers: { 'Authorization': 'Bearer '+ token }})
+            console.log(response.data)
+            return response.data;
+        }
+        catch(err){
+            console.log(err);
+        }
+    },
     async getAdvertisementChannel({rootState}, id){
         try {
             const response = await axios.get(rootState.apiPrefix + `/ads/${id}/channel`)

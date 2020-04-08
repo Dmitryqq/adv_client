@@ -1,7 +1,8 @@
 <template>
   <div id="app">
-    <navbar/>
-    <router-view/>
+    <Header />
+    <navbar />
+    <router-view />
     <!-- <b-container class = "bv-example-row">
         <b-row>
           <b-col>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo consequuntur aliquid consequatur beatae tempora neque asperiores corrupti, modi possimus eius illum suscipit labore autem esse dolore fuga adipisci itaque harum!</b-col>
@@ -17,29 +18,27 @@
         <div class="col">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ducimus, possimus. Sed amet esse veniam, optio nihil ad neque facilis perspiciatis et delectus quasi doloremque totam. Fugiat provident facere earum. Quasi?</div>
         <div class="col">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis, magni corporis alias deleniti enim rerum repellendus, et molestias voluptate suscipit facere ducimus voluptas natus soluta neque accusantium! Consequuntur, et cumque.</div>
       </div>
-    </div> -->
+    </div>-->
   </div>
-
-
 </template>
 
 <script>
-import Navbar from './components/Navbar';
+import Navbar from "./components/Navbar";
+import Header from "./components/Header";
 // import { USER_REQUEST } from "./store/actions/user";
 
 export default {
-  name: 'app',
+  name: "app",
   components: {
-    Navbar
+    Navbar,
+    Header
   },
   created: function() {
     // if (this.$store.getters.isAuthenticated) {
-      
     // }
   }
-}
+};
 </script>
 
 <style>
-
 </style>

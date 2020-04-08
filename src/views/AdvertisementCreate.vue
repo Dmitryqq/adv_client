@@ -25,7 +25,7 @@
                         </div>
                     </td>
                     
-                    <td><img :src="logoPrefix + channel.logo"></td>
+                    <td><img :src="logoPrefix + channel.logo" class="responsive"></td>
                     <td>{{channel.name}}</td>
                     <td>
                         <select class="form-control form-control-sm shadow" :disabled="!channel.checked" v-model="channel.tariff" @change="methodThatForcesUpdate()">
@@ -226,6 +226,7 @@ export default {
 .advcreate{
     width: 90%;
     margin: auto;
+    font-size: 18px;
     /* padding-top: 20px; */
 }
 .adv_text{
@@ -243,7 +244,8 @@ export default {
 }
 .form-control{
     min-height: 40px;
-    max-height: 90px;
+    /* max-height: 90px; */
+    min-width: 90px;
     height: 65px;
 }
 .wrapper{
@@ -259,6 +261,7 @@ export default {
 }
 
 .switch_box{
+  /* max-width: 100%; */
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;
@@ -283,7 +286,7 @@ export default {
 } */
 
 input[type="checkbox"].switch_1{
-	font-size: 20px;
+	/* font-size: 100%; */
 	-webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -328,10 +331,9 @@ input[type="checkbox"].switch_1{
 /* td{
     vertical-align: middle;
 } */
-img{
-    width: 150px;
-    height: 70px;
-}
+/* img{
+    
+} */
 td:nth-child(1){
     width: 8%;
 }
@@ -349,5 +351,40 @@ td:nth-child(5){
 }
 td:nth-child(6){
     width: 5%;
+}
+.responsive {
+    width: 150px;
+    height: 70px;
+  max-width: 15vw;
+  height: auto;
+}
+@media screen and (max-width: 1200px) {
+  div {
+    font-size: 18px;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  div {
+    font-size: 15px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  div {
+    font-size: 12px;
+  }
+  select.form-control{
+      font-size: 12px;
+      min-width: 75px;
+      /* max-width: 90px; */
+  }
+  .table td, .table th{
+      padding-left: 0.15rem;
+      padding-right: 0.15rem;
+  }
+  .w-full{
+      min-width: 25px;
+  }
 }
 </style>

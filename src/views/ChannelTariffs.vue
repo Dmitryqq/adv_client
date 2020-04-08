@@ -1,24 +1,26 @@
 <template>
-    <panel header = "Агенты каналов">
+    <panel header = "Тарифы каналов">
         <table border="1" class="table table-hover shadow" width="100%">
             <tr>
                 <td><b>№</b></td>
                 <td><b>Канал</b></td>
-                <td><b>Агент</b></td>
+                <td><b>Тариф</b></td>
+                <td><b>Цена</b></td>
                 <td></td>
                 <td></td>
             </tr>
-            <tr v-for="channelAgent in channelAgents" :key="channelAgent.id">
-                <td>{{ channelAgent.id }}</td>
-                <td>{{ channelAgent.channel.name }}</td>
-                <td>{{ channelAgent.user.username }}</td>
+            <tr v-for="channelTariff in channelTariffs" :key="channelTariff.id">
+                <td>{{ channelTariff.id }}</td>
+                <td>{{ channelTariff.channel.name }}</td>
+                <td>{{ channelTariff.tariff.type }}</td>
+                <td>{{ channelTariff.price }}</td>
                 <td></td>
                 <td></td>
             </tr>
             <tr>
                 <td></td>
                 <td>
-                    <select class="form-control form-control-sm shadow" v-model="channelAgent.channelId">
+                    <select class="form-control form-control-sm shadow" v-model="channelTariff.channelId">
                         <option disabled value=''>Канал</option>
                         <option v-for="channel in channels" :key="channel.id" :value="channel.id">
                             {{ channel.channel.name }}
@@ -26,15 +28,16 @@
                     </select>
                 </td>
                 <td>
-                    <select class="form-control form-control-sm shadow" v-model="channelAgent.userId">
-                        <option disabled value=''>Пользователь</option>
-                        <option v-for="user in users" :key="user.id" :value="user.id">
-                            {{ user.username }}
+                    <select class="form-control form-control-sm shadow" v-model="channelTariff.tariffId">
+                        <option disabled value=''>Тариф</option>
+                        <option v-for="tariff in tariffs" :key="tariff.id" :value="tariff.id">
+                            {{ tariff.type }}
                         </option>
                     </select>
                 </td>
+                <td><input class="form-control form-control-sm" type="text" v-model="channelTariff.price"></td>
                 <td></td>
-                <td><button type="submit" class="btn btn-primary" @click="addchannelAgent()">Добавить</button></td>
+                <td><button type="submit" class="btn btn-primary" @click="addChannelAdmin()">Добавить</button></td>
             </tr>
         </table>
     </panel>
@@ -49,30 +52,30 @@ export default {
     },
     data: function(){
         return {
-            channelAgent:{
+            channelTariff:{
                 channelId: '',
-                userId: ''
+                tariffId: '',
+                price: ''
             },
-            channelAgents: [],
+            channelTariffs: [],
             channels: []
         }
     },
     computed:{
-        users(){
-            return this.$store.state.users.users;
-        }
+        tariffs(){
+            return this.$store.state.tariffs.tariffs;
+        },
     },
     created(){
-        this.getMyChannelsAdmin()
-        this.getUsers()
-        this.getChannelsAgents()
+        this.getMyChannelsTariffs()
+        this.getMyChannelsAgent()
+        this.getTariffs()
     },
     methods: {
-        getMyChannelsAdmin () {
-            this.$store.dispatch('channels/getMyChannelsAdmin')
-            .then(res => {
-                console.log(res)
-                this.channels = res
+        getMyChannelsTariffs() {
+            this.$store.dispatch('channels/getMyChannelsTariffs')
+            .then((res)=>{
+                this.channelTariffs = res;
             })
             .catch(err=>{
                 this.error = err.message;
@@ -81,10 +84,10 @@ export default {
                 this.isLoading = false; 
             })    
         },
-        getChannelsAgents () {
-            this.$store.dispatch('channels/getChannelsAgents')
-            .then(res => {
-                this.channelAgents = res
+        getMyChannelsAgent() {
+            this.$store.dispatch('channels/getMyChannelsAgent')
+            .then((res)=>{
+                this.channels = res;
             })
             .catch(err=>{
                 this.error = err.message;
@@ -93,8 +96,8 @@ export default {
                 this.isLoading = false; 
             })    
         },
-        getUsers () {
-            this.$store.dispatch('users/getUsers')
+        getTariffs () {
+            this.$store.dispatch('tariffs/getTariffs')
             .catch(err=>{
                 this.error = err.message;
             })   
@@ -102,20 +105,6 @@ export default {
                 this.isLoading = false; 
             })    
         },
-        addchannelAgent(){
-            try{
-                this.$store.dispatch('channels/addchannelAgent', this.channelAgent)
-                .then(
-                    console.log("nice")
-                )
-                .catch(err=>{
-                    console.log(err)
-                })
-            }
-            catch(e){
-                console.log(e)
-            }
-        }
     },
 }
 </script>
@@ -136,9 +125,12 @@ td:nth-child(3){
     width: 20%;
 }
 td:nth-child(4){
-    width: 5%;
+    width: 10%;
 }
 td:nth-child(5){
+    width: 5%;
+}
+td:nth-child(6){
     width: 5%;
 }
 </style>

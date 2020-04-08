@@ -24,7 +24,7 @@ export default new Vuex.Store({
     auth
   },
   state:{
-      apiPrefix: 'http://localhost:3000/api'
+      apiPrefix: 'http://192.168.0.105:3000/api'
   },
   // actions:{
   //   handleError({},err){
