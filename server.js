@@ -1,11 +1,11 @@
 const express = require("express");
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 8081;
 const app = express();
 
-// app.use(express.static(__dirname + "/dist/"));
-// app.get(/.*/, function(req, res) {
-//   res.sendFile(__dirname + "/dist/index.html");
-// });
+app.use(express.static(__dirname + "/dist/"));
+app.get(/.*/, function(req, res) {
+    res.sendFile(__dirname + "/dist/index.html");
+});
 app.listen(port);
 
-console.log("Client App server started...");
+console.log(`Client app server is up and running at port ${port}`);

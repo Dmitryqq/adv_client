@@ -1,6 +1,6 @@
 <template>
     <panel header = "Список каналов">
-        <table border="1" class="table table-hover shadow" width="100%">
+        <table border="1" width="100%">
             <tr>
                 <td><b>№</b></td>
                 <td><b>name</b></td>
@@ -16,7 +16,7 @@
                 <td>{{ channel.id }}</td>
                 <td>{{ channel.name }}</td>
                 <td>{{ channel.description }}</td>
-                <td><img :src="logoPrefix + channel.logo"></td>
+                <td><img class="channel-logo" :src="logoPrefix + channel.logo"></td>
                 <td>{{ channel.max_ads_per_day }}</td>
                 <td>{{ format_date(channel.create_date) }}</td>
                 <td v-if="channel.update_date">{{ format_date(channel.update_date) }}</td>
@@ -26,14 +26,14 @@
             </tr>
             <tr>
                 <td></td>
-                <td><input class="form-control" type="text" name="name" v-model="channel.name"></td>
-                <td><input class="form-control" type="text" name="name" v-model="channel.description"></td>
-                <td><input class="form-control-sm" type="file" accept="image/*" @change="onImageChanged($event)" id="file-input"></td>
-                <td><input class="form-control" type="number" min="0" name="name" v-model="channel.max_ads_per_day"></td>
+                <td><input type="text" name="name" v-model="channel.name"></td>
+                <td><input type="text" name="name" v-model="channel.description"></td>
+                <td><input type="file" accept="image/*" @change="onImageChanged($event)" id="file-input"></td>
+                <td><input type="number" min="0" name="name" v-model="channel.max_ads_per_day"></td>
                 <td></td>
                 <td></td>
                 <td></td>
-                <td><button type="submit" class="btn btn-primary" @click="addChannel()">Добавить</button></td>
+                <td><button @click="addChannel()">Добавить</button></td>
             </tr>
         </table>
     </panel>
@@ -130,34 +130,38 @@ export default {
 </script>
 
 <style scoped>
-img{
-    width: 150px;
-    height: 70px;
-}
-table{
+/* table{
     word-break: break-all;
     text-align-last: left;
+} */
+table, th, td {
+    max-height: 50px;
+    /* text-align: center; */
+    word-break: normal;
+    border: 1px solid rgba(131, 123, 123, 0.349);
 }
 td:nth-child(1){
-    width: 3%;
+    width: 1%;
 }
 td:nth-child(2){
-    width: 8%;
+    width: 5%;
 }
 td:nth-child(3){
-    width: 20%;
+    word-break: break-all;
+    min-width: 200px;
+    width: 10%;
 }
 td:nth-child(4){
     width: 5%;
 }
 td:nth-child(5){
-    width: 8%;
+    width: 4%;
 }
 td:nth-child(6){
-    width: 10%;
+    width: 5%;
 }
 td:nth-child(7){
-    width: 10%;
+    width: 5%;
 }
 td:nth-child(8){
     width: 3%;

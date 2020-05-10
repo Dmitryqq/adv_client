@@ -1,0 +1,127 @@
+// Spoiler styles
+$img-marker: 'data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjM0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIzNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNOC41OSAxNi4zNGw0LjU4LTQuNTktNC41OC00LjU5TDEwIDUuNzVsNiA2LTYgNnoiLz48L3N2Zz4=';
+details {
+    position: relative;
+    margin-bottom: .5rem;
+    min-height: 1.5rem;
+    max-height: 5rem;
+    padding: 0.5em 0.5em;
+    border: 2px solid rgba(42, 84, 221, 0.9);
+    border-radius: 10px;
+    transition: min-height .15s linear, max-height .5s linear;
+    -webkit-transition: min-height .15s linear, max-height .5s linear;
+    will-change: max-height;
+    overflow: hidden;
+    // summary
+    summary {
+        // remove default marker
+        &::-webkit-details-marker {
+            display: none;
+        }
+        &::-moz-list-bullet {
+            list-style-type: none;
+        }
+        // content-fit width
+        display: inline-block;
+        // space for custom marker
+        padding-left: 1.5em;
+        padding-bottom: 10px;
+        // aux
+        cursor: pointer;
+        outline: 0;
+        transition: color .12s;
+        -webkit-transition: color .12s;
+        // border
+        span {
+            border-bottom: 1px currentColor dotted;
+        }
+        // custom marker
+        &::before {
+            content: "";
+            padding-top: 1em;
+            left: 0;
+            top: .4em;
+            position: absolute;
+            background: url($img-marker) no-repeat 50% 50% / 1em 1em;
+            width: 1em;
+            height: 1em;
+            transition: transform .1s linear;
+            -webkit-transition: transform .1s linear;
+        }
+        // hover
+        &:hover {
+            color: rgba(42, 84, 221, 0.9);
+        }
+        // content of spoiler
+        &~* {
+            padding-left: 1.5em;
+            opacity: 0;
+            transition: opacity .15s linear;
+            -webkit-transition: opacity .15s linear;
+        }
+    }
+    // opened spoiler
+    &[open] {
+        min-height: 2em;
+        max-height: 100em;
+        summary {
+            color: rgba(42, 84, 221, 0.9);
+            // show details content
+            &~* {
+                opacity: 1;
+            }
+            // rotate custom marker
+            &:before {
+                transform: rotate(90deg);
+                -webkit-transform: rotate(90deg);
+                -moz-transform: rotate(90deg);
+            }
+        }
+    }
+}
+
+// fix for ie & edge
+@mixin ie_fix() {
+    details {
+        max-height: none;
+        summary {
+            &~* {
+                max-height: 0;
+                overflow: hidden;
+                position: absolute;
+            }
+            &:focus {
+                color: rgba(42, 84, 221, 0.9);
+                &::before {
+                    transform: rotate(90deg);
+                    -ms-transform: rotate(90deg);
+                }
+                &~* {
+                    max-height: 20em;
+                    position: static;
+                    opacity: 1;
+                }
+            }
+        }
+    }
+}
+
+// IE 10-11
+@media screen and (-ms-high-contrast: active),
+(-ms-high-contrast: none) {
+    @include ie_fix();
+}
+
+// Edge
+@supports (-ms-ime-align:auto) {
+    @include ie_fix();
+}
+
+p {
+    img {
+        float: left;
+        width: 3.25rem;
+        margin: .25rem .5rem .25rem 0;
+        opacity: .75;
+    }
+}

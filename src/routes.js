@@ -14,26 +14,33 @@ import Profile from './views/Profile'
 
 
 const routes = [
-    { path: '/test', component: Test},
+    { path: '/test', component: Test },
     { path: '/users', component: Users },
-    { path: '/ads', component: MyAdvertisements, meta: {requiresAuth: true}},
-    { path: '/adsonmychannels', component: AdsOnMyChannel, meta: {requiresAuth: true}},
-    { path: '/create', component: AdvertisementCreate},
-    { path: '/profile', component: Profile, meta: {requiresAuth: true}},
-    { path: '/channels', name: 'channels', component: Channels, meta: {requiresAuth: true, roles: ['main-admin']}},
-    //     children: [
-    //         { 
-    //             path: 'admins', name: 'admins', component: ChannelAdmins, 
-    //             meta: { 
-    //                 requiresAuth: true,
-    //                 roles:['main-admin']
-    //             }
-    //         }
-    //     ]
-    // },
-    { path: '/channels/admins', component: ChannelAdmins,meta: {requiresAuth: true, roles: ['main-admin']}},
-    { path: '/channels/agents', component: ChannelAgents,meta: {requiresAuth: true}},
-    { path: '/channels/tariffs', component: ChannelTariffs ,meta: {requiresAuth: true}},
+    { path: '/ads', component: MyAdvertisements, meta: { requiresAuth: true } },
+    { path: '/adsonmychannels', component: AdsOnMyChannel, meta: { requiresAuth: true } },
+    { path: '/create', component: AdvertisementCreate, meta: { requiresAuth: true } },
+    { path: '/profile', component: Profile, meta: { requiresAuth: true } },
+    {
+        path: '/channels',
+        name: 'channels',
+        component: Channels,
+        meta: { requiresAuth: true, roles: ['main-admin'] },
+        // children: [{
+        //         path: 'admins',
+        //         name: 'admins',
+        //         component: ChannelAdmins,
+        //         meta: {
+        //             requiresAuth: true,
+        //             roles: ['main-admin']
+        //         }
+        //     },
+        //     { path: 'agents', component: ChannelAgents, meta: { requiresAuth: true } },
+        //     { path: 'tariffs', component: ChannelTariffs, meta: { requiresAuth: true } },
+        // ]
+    },
+    { path: '/channels/admins', component: ChannelAdmins, meta: { requiresAuth: true, roles: ['main-admin'] } },
+    { path: '/channels/agents', component: ChannelAgents, meta: { requiresAuth: true } },
+    { path: '/channels/tariffs', component: ChannelTariffs, meta: { requiresAuth: true } },
     { path: '/login', component: Login },
     { path: '/register', component: Register },
 ]

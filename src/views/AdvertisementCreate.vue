@@ -1,22 +1,20 @@
 <template>
     <div class="advcreate">
-        <div class="adv_text shadow">
-            <div class="form-group green-border-focus">
-                <label for="exampleFormControlTextarea5">Текст объявления</label>
-                <textarea class="form-control" id="exampleFormControlTextarea5" rows="3" v-on:input="countLetters" v-model="adv_text"></textarea>
+        <div class="adv_text">
+                <b>ТЕКСТ ОБЪЯВЛЕНИЯ</b>
+                <textarea class="adv-text" v-on:input="countLetters" v-model="adv_text"></textarea>
                 <label>Длина: {{length}}, букв: {{letters}}, слов: {{words}}</label>
-            </div>
         </div>
         <div class="adv_channels shadow">
-            <table class="table table-hover shadow">
+            <table id="t01" style="width:100%">
                 <tr>
                     <td></td>
-                    <td>Лого</td>
-                    <td>Название</td>
-                    <td>Тип оплаты</td>
-                    <td>Прайс</td>
-                    <td>Даты</td>
-                    <td>Стоимость</td>
+                    <td colspan="2"><b>Канал</b></td>
+                    <!-- <td>Название</td> -->
+                    <td><b>Тип оплаты</b></td>
+                    <td><b>Прайс</b></td>
+                    <td><b>Даты</b></td>
+                    <td><b>Стоимость</b></td>
                 </tr>
                 <tr v-for="channel in channels" :key="channel.id" :title='channel.description'>
                     <td>
@@ -25,10 +23,10 @@
                         </div>
                     </td>
                     
-                    <td><img :src="logoPrefix + channel.logo" class="responsive"></td>
+                    <td><img :src="logoPrefix + channel.logo" class="channel-logo"></td>
                     <td>{{channel.name}}</td>
                     <td>
-                        <select class="form-control form-control-sm shadow" :disabled="!channel.checked" v-model="channel.tariff" @change="methodThatForcesUpdate()">
+                        <select :disabled="!channel.checked" v-model="channel.tariff" @change="methodThatForcesUpdate()">
                             <option disabled value="">Тариф</option>
                             <option v-for="channelTariff in getTariffsForChannel(channel)" :key="channelTariff.id" :value="channelTariff">
                                 {{ channelTariff.tariff.type }}
@@ -38,24 +36,23 @@
                     <td v-if="channel.tariff">{{channel.tariff.price}} сом</td>
                     <td v-else></td>
                     <td v-if="channel.checked">
-                        <vc-date-picker mode="multiple" color='teal' :min-date='new Date()' v-model='channel.dates' :masks="{ input: 'DD.MM.YY', data: 'DD/MM/YYYY' }" :input-props='{
-                            class: "w-full shadow appearance-none border rounded py-2 px-3 text-gray-700 hover:border-blue-5",
+                        <vc-date-picker class="date-picker" mode="multiple" color='teal' :min-date='new Date()' v-model='channel.dates' :masks="{ input: 'DD.MM', data: 'DD/MM/YYYY' }" :input-props='{
                             placeholder: "Выберите даты",
                             readonly: true
                         }'
                         @input="methodThatForcesUpdate()"/>
                     </td>
-                    <td v-else><input class="w-full shadow appearance-none border rounded py-2 px-3 text-gray-700 hover:border-blue-5 color-gray" disabled/></td>
+                    <td v-else><input class="date-picker-disabled" disabled/></td>
                     <td v-if="channel.tariff && channel.dates && channel.dates.length>0">{{channel.tariff.price * letters * channel.dates.length}} сом</td>
                     <td v-else></td>
                 </tr>
                 <tr>
                     <td colspan="5"></td>
-                    <td align="right"><b>Итого:</b></td>
+                    <td style="text-align:right"><b>Итого:</b></td>
                     <td>{{calculateSum()}} сом</td>
                 </tr>
             </table>
-            <button type="submit" class="btn btn-primary btn float-right" @click="adCreate()">Создать</button>
+            <button class="button button1" style="margin-left: auto; display: block; margin-top: 20px" @click="adCreate()">Создать</button>
             <!-- {{channelsTariffs}} -->
         </div>
     </div>
@@ -89,9 +86,9 @@ export default {
     },
     created(){
         this.getChannels()
+        this.getChannelsTariffs()
     },
     beforeMount(){
-        this.getChannelsTariffs()
     },
     methods: {
         // getAdvertisementChannel () {
@@ -107,7 +104,7 @@ export default {
         //     })    
         // },
         async adCreate() {
-            this.$store.dispatch('advertisements/addAdvertisement', {"adv_text": this.adv_text})
+            this.$store.dispatch('advertisements/addAdvertisement', {"adv_text": this.adv_text, "channels": this.channels})
             .then((res) => {
                 if(res && res.id){
                     this.channels.forEach(channel => {
@@ -155,21 +152,21 @@ export default {
             return advChannel;
         },
        async getChannels () {
-            this.$store.dispatch('channels/getChannels')
+            await this.$store.dispatch('channels/getChannels')
             .catch(err=>{
                 this.error = err.message;
             })   
             .finally(()=>{
                 this.channels.map(item => {
                         item.checked = false,
-                        item.tariff = "",
+                        item.tariff = '',
                         item.dates = []
                     })
                 this.isLoading = false; 
             })    
         },
         async getChannelsTariffs () {
-            this.$store.dispatch('channels/getChannelsTariffs')
+            await this.$store.dispatch('channels/getChannelsTariffs')
             .then((res)=>{
                 this.channelsTariffs = res;
             })
@@ -222,42 +219,105 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
+select option:disabled{
+    color: gray;
+}
 .advcreate{
-    width: 90%;
+    width: 100%;
+    height: calc(100% + 400px);
     margin: auto;
     font-size: 18px;
-    /* padding-top: 20px; */
+    padding-top: 100px;
+    background-image: url("../../public/4cf2f0b3f95698b0758a239d7fea30f0.jpg");
+    background-size: 50%;
+
+    padding-bottom: 100px;
 }
-.adv_text{
-    padding: 20px;
-    margin-top: 20px;
-    background: #f0f0f0d3;
-    outline: 3px solid gray;
-    outline-style: auto;
+/* .advcreate::after{
+    content: "";
+    background-image: url("../../public/Creative-calligraphic-text-vector.jpg");
+    background-color: #cccccc;
+    background-position: left;
+    background-repeat: repeat;
+    background-size: 300px;
+    top: 300;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    height: calc(100% + 200px);
+    z-index: -1;   
+    opacity: 0.5;
+} */
+.adv_text, .adv_channels{
+    width: 70%;
+    margin: 0 15%;
+    padding: 40px 10px 10px 10px;
+    color: black;
+    background-image: url("../../public/adv_text_background.png");
+    background-size: 100% 120%;
+    background-position: center;
+    box-shadow: 5px 5px 20px 3px #696969;
+
+
+    /* background: white; */
+    /* outline: 3px solid gray; */
 }
 .adv_channels{
     margin-top: 20px;
-    background: #f0f0f0d3;
-    outline: 3px solid gray;
-    outline-style: auto;
+    /* background: #f0f0f0d3; */
+    /* outline-style: auto; */
 }
-.form-control{
-    min-height: 40px;
-    /* max-height: 90px; */
-    min-width: 90px;
-    height: 65px;
+textarea {
+  width: 96%;
+  height: 75px;
+  padding: 10px 10px;
+  margin: 0 2%;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  resize: none;
 }
-.wrapper{
-	display: -webkit-box;
-	display: -ms-flexbox;
-	display: flex;
-	width: 400px;
-	margin: 50vh auto 0;
-	-ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-	-webkit-transform: translateY(-50%);
-    transform: translateY(-50%);
+select {
+  width: 100%;
+  padding: 5px 6px;
+  border: none;
+  border-radius: 4px;
+  background-color: #fff;
+}
+table, th, td {
+    /* height: 50px; */
+    word-break:normal;
+    text-align: center;
+    border: 1px solid rgba(131, 123, 123, 0.349);
+}
+.date-picker /deep/ input {
+    display: block !important;
+    width: 92% !important;
+    color: #495057 !important;
+    background-color: #fff !important;
+    background-clip: padding-box !important;
+    border: 1px solid #ced4da !important;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out !important;
+    padding: .25rem .5rem !important;
+    font-size: .875rem !important;
+    line-height: 1.5 !important;
+    border-radius: .2rem !important;
+}
+.date-picker-disabled {
+    display: block !important;
+    width: 92% !important;
+    color: #495057 !important;
+    background-color: #fff !important;
+    background-clip: padding-box !important;
+    border: 1px solid #ced4da !important;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out !important;
+    padding: .25rem .5rem !important;
+    font-size: .875rem !important;
+    line-height: 1.5 !important;
+    border-radius: .2rem !important;
 }
 
 .switch_box{
@@ -278,13 +338,6 @@ export default {
     -ms-flex: 1;
     flex: 1;
 }
-
-/* Switch 1 Specific Styles Start */
-
-/* .box_1{
-	background: #eee;
-} */
-
 input[type="checkbox"].switch_1{
 	/* font-size: 100%; */
 	-webkit-appearance: none;
@@ -327,51 +380,46 @@ input[type="checkbox"].switch_1{
   input:disabled {
   background: #e9ecef;
 }
-
-/* td{
-    vertical-align: middle;
-} */
-/* img{
-    
-} */
-td:nth-child(1){
-    width: 8%;
+table#t01 tr:nth-child(1) {
+  background-color: rgba(95, 158, 160, 0.6);
+  max-height: 30px;
 }
-td:nth-child(2){
-    width:10%;
+table#t01 tr:last-child {
+  background-color: rgba(95, 158, 160, 0.6);
+  max-height: 30px;
 }
-td:nth-child(3){
-    width: 15%;
-}
-td:nth-child(4){
-    width: 20%;
-}
-td:nth-child(5){
-    width: 10%;
-}
-td:nth-child(6){
-    width: 5%;
-}
-.responsive {
-    width: 150px;
-    height: 70px;
-  max-width: 15vw;
+.channel-logo {
+    width: 15vw;
+    /* height: 70px; */
+    border-radius: 10%;
+  max-width: 100px;
   height: auto;
 }
-@media screen and (max-width: 1200px) {
-  div {
+
+@media screen and (min-width: 1280px) {
+  div, .dropbtn {
     font-size: 18px;
   }
 }
 
+@media screen and (max-width: 1280px) {
+  div, .dropbtn {
+    font-size: 18px;
+  }
+  .adv_text, .adv_channels{
+      width: 90%;
+      margin: 20px 5% 0;
+  }
+}
+
 @media screen and (max-width: 992px) {
-  div {
+  div, .dropbtn {
     font-size: 15px;
   }
 }
 
 @media screen and (max-width: 767px) {
-  div {
+  div, .dropbtn {
     font-size: 12px;
   }
   select.form-control{
@@ -385,6 +433,10 @@ td:nth-child(6){
   }
   .w-full{
       min-width: 25px;
+  }
+  .adv_text, .adv_channels{
+      width: 90%;
+      margin: 0 2% 10px;
   }
 }
 </style>

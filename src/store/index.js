@@ -9,34 +9,36 @@ import advertisements from './modules/advertisements'
 import channels from './modules/channels'
 // import user from "./modules/user";
 import auth from "./modules/auth";
+import notifications from "./modules/notifications";
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  modules: {
-    roles,
-    users,
-    statuses,
-    tariffs,
-    advertisements,
-    channels,
-    // user,
-    auth
-  },
-  state:{
-      apiPrefix: 'http://192.168.0.105:3000/api'
-  },
-  // actions:{
-  //   handleError({},err){
-  //     if(!err || !err.status)
-  //       return;
-  //     if(err.status == "403")
-  //       router.push('/forbidden')
-  //     else 
-  //       if(err.status == "404")
-  //         router.push('/notfound')
-  //       else
-  //         router.push('/server_error')
-  //   }
-  // }
+    modules: {
+        roles,
+        users,
+        statuses,
+        tariffs,
+        advertisements,
+        channels,
+        // user,
+        auth,
+        notifications
+    },
+    state: {
+        apiPrefix: 'http://192.168.0.105:3000/api'
+    },
+    // actions:{
+    //   handleError({},err){
+    //     if(!err || !err.status)
+    //       return;
+    //     if(err.status == "403")
+    //       router.push('/forbidden')
+    //     else 
+    //       if(err.status == "404")
+    //         router.push('/notfound')
+    //       else
+    //         router.push('/server_error')
+    //   }
+    // }
 })

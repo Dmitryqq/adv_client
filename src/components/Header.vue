@@ -1,20 +1,18 @@
 <template>
   <!-- <div class="page-header">
-    <div class="header-text">App name</div>
-    <div class="header-image"><img src="header-image.png" class="responsive" align="center" /></div>
-  </div>-->
-  <div class="page-header">
     <div class="grid-container">
+      <div class="grid-item" style="text-align: right">
+        <img src="../../public/header-image.png" id="responsive" align="center" />
+      </div>
       <div class="grid-item">
         <p class="app-title">
-          <b>App name</b>
+          <b>ADVERT</b>
         </p>
-        <p class="app-description">Some text 123</p>
-      </div>
-      <div class="grid-item">
-        <img src="header-image.png" class="responsive" align="center" />
       </div>
     </div>
+  </div>-->
+  <div class="page-header">
+      <img src="../../public/header-image-white.png" id="responsive" align="center" />
   </div>
 </template>
 
@@ -26,54 +24,42 @@ export default {
 
 <style>
 .page-header {
-  margin-bottom: 0px;
-  max-height: 200px;
-    min-height: 110px;
-  text-align: right;
+  /* margin-bottom: 0px; */
+  padding-top: 40px;
+  text-align: center;
+  height: 300px;
+  background-image: url("../../public/Tv.jpg");
+  background-position: center;
+    background-size: 100%;
+  /* z-index: -10; */
+  /* min-width: 360px; */
+  /* text-align: right; */
 }
-.app-title {
-  font-size: 50px;
-  margin-bottom: 0px;
-}
-.app-description {
-  font-size: 40px;
-  margin-bottom: 0px;
-}
-.header-text {
-  /* float: right; */
-}
-.responsive {
-  width: 58vw;
-  max-width: 650px;
-  
-    min-height: 110px;
-  /* height: auto; */
-}
-.grid-container {
-  display: grid;
-  grid-template-columns: 40% 60%;
-  background-color: #2196f3;
-}
-.grid-item{
-}
-/* @media screen and (max-width: 1200px) {
-  .page-header {
-    font-size: 44px;
-  }
-}
-
-@media screen and (max-width: 992px) {
-  div {
-    font-size: 15px;
-  }
+/* .page-header::after{
+    content: "";
+    background-image: url("../../public/channels4_banner.jpg");
+    background-position: left;
+    background-size: 100%;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    height: calc(100% + 200px);
+    z-index: -1;   
+    opacity: 1;
 } */
-
+#responsive{
+  position: fixed;
+  left: 50%;
+  margin-left: -100px;
+  width: 200px;
+  height: auto;
+  z-index: 0;
+}
 @media screen and (max-width: 767px) {
-  .app-title {
-    font-size: 26px;
-  }
-  .app-description {
-    font-size: 20px;
+  .page-header{
+    background-size: 150%;
   }
 }
 </style>

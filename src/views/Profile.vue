@@ -1,5 +1,6 @@
 <template>
     <panel header = "Профиль">
+    Width: {{windowWidth}}
     <div class="profile shadow">
         <div class="form-group green-border-focus">
             <div class="container">
@@ -61,6 +62,30 @@ export default {
     components: {
         panel
     },
+    data(){
+        return{
+            windowWidth: 0,
+        }
+    },
+    // watch: {
+    //     windowHeight(newHeight, oldHeight){
+
+    //     }
+    // }
+    mounted(){
+        // this.$nextTick(() => {
+        //     window.addEventListener('resize', this.onResize);
+        // })
+        window.addEventListener('resize', () => {
+            this.windowWidth = window.innerHeight;
+        });
+    },
+    beforeDestroy(){
+        window.removeEventListener('resize', this.onResize);
+    },
+    onResize(){
+        this.windowWidth = window.width;
+    },
     computed:{
         user(){
             return this.$store.state.users.user;
@@ -85,7 +110,7 @@ export default {
 
 <style scoped>
 .profile{
-    width: 99.8%;
+    /* width: 99.8%; */
     margin: auto;
     padding: 20px;
     background: #f0f0f0d3;

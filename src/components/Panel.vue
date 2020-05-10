@@ -18,7 +18,7 @@ export default {
 
 <style scoped>
 .panel-header {
-  width: 100%;
+  /* width: 100%; */
   padding: 10px;
   background: #846bab;
   color: #fff;
@@ -30,11 +30,16 @@ export default {
 }
 .panel {
   box-shadow: 0 0px 0px #ccc;
-  width: 95%;
-  float: right;
-  /* text-align-last: center; */
+  margin: auto;
+  width: 70%;
+  padding-top: 20px;
   font-size: 100%;
-  margin: 30px;
+}
+@media screen and (max-width: 1280px) {
+  .panel {
+    margin: 20px 5% 0;
+    width: 90%;
+  }
 }
 </style>
 

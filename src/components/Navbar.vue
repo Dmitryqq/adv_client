@@ -1,81 +1,87 @@
 <template>
-  <nav class="navbar navbar-expand-md navbar-light bg-light py-2 sticky-top">
-    <!-- <button class="navbar-toggler" data-toggle="collapse" data-target="#collapse_target">
-      <span class="navbar-toggler-icon"></span>
-    </button> -->
-
-    <!-- <div class="collapse navbar-collapse" id="collapse_target"> -->
-      <a class="navbar-brand" href="#">Главная</a>
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="/create">Создать</a>
-        </li>
-      </ul>
-      <ul class="navbar-nav">
-        <li v-if="user!=null" class="nav-item">
-          <a class="nav-link" style="padding-right:10px" href="#">
-            <i class="fa fa-bell fa-md">
-              <span class="badge badge-info">11</span>
-            </i>
-          </a>
-        </li>
-      </ul>
-    <!-- </div> -->
-    <ul class="navbar-nav" v-if="user!=null">
-      <li class="nav-item dropdown ml-auto">
-        <a
-          class="nav-link dropdown-toggle"
-          href="#"
-          id="navbarDropdown"
-          role="button"
-          data-toggle="dropdown"
-          data-target="navbarDropdown"
-        >
-          <!-- <span class="caret"></span> -->
-          {{user.username}}
+  <div class="navbar">
+    <ul class="navbar-ul">
+      <li>
+        <router-link to="/">Главная</router-link>
+      </li>
+      <li>
+        <router-link to="/create">Создать</router-link>
+      </li>
+      <li>
+        <router-link to="/about">О нас</router-link>
+      </li>
+      <!-- <li v-if="user!=null">
+        <a href="#">
+          <i class="fa fa-bell fa-md">
+            <span class="badge badge-info">11</span>
+          </i>
         </a>
-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="/ads">Мои объявления</a>
-          <a class="dropdown-item" href="/profile">Настройки</a>
-          <a class="dropdown-item" href="/adsonmychannels">Рекламы на моих каналах</a>
+      </li>-->
+      <!-- <li class="dropdown" v-if="user!=null">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Messages<span>8</span></a>
+        <div class="dropdown-content">
+          <router-link to="/ads" class="dropdown-item">Мои объявления</router-link>
+          <router-link to="/profile" class="dropdown-item">Настройки</router-link>
+          <router-link to="/adsonmychannels" class="dropdown-item">Рекламы на моих каналах</router-link>
+        </div>
+      </li>-->
+      <li>
+        <a style="cursor: default">{{user.balance}} сом</a>
+      </li>
+      <li class="dropdown" v-if="user!=null">
+        <button class="dropbtn" onclick="showNotifications()">
+          <i class="fa fa-bell fa-md">
+            <span class="badge badge-info" style="font-size: 15px; vertical-align: text-top:">{{notifications.length}}</span>
+          </i>
+        </button>
+        <notification />
+      </li>
+
+      <li class="dropdown" v-if="user!=null">
+        <button class="dropbtn" onclick="showMenu()">
+          {{user.username}}
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content" id="menuDropdown">
+          <router-link to="/ads" class="dropdown-item">Мои объявления</router-link>
+          <router-link to="/" class="dropdown-item">Пополнить счёт</router-link>
+          <router-link to="/profile" class="dropdown-item">Настройки</router-link>
+          <router-link to="/adsonmychannels" class="dropdown-item">Рекламы на моих каналах</router-link>
           <div v-if="user.role == 'Главный администратор'">
-            <a class="dropdown-item" href="/channels">Каналы</a>
-            <a class="dropdown-item" href="/channels/admins">Админы каналов</a>
-            <a class="dropdown-item" href="/channels/agents">Агенты каналов</a>
-            <a class="dropdown-item" href="/channels/tariffs">Тарифы каналов</a>
+            <router-link to="/channels" class="dropdown-item">Каналы</router-link>
+            <router-link to="/channels/admins" class="dropdown-item">Админы каналов</router-link>
+            <router-link to="/channels/agents" class="dropdown-item">Агенты каналов</router-link>
+            <router-link to="/channels/tariffs" class="dropdown-item">Тарифы каналов</router-link>
           </div>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href @click="logout">Выйти</a>
         </div>
       </li>
-    </ul>
-    <div v-else>
-        <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <!-- <router-link to="/login" class="nav-link">Войти</router-link> -->
-        <a class="nav-link" href="/login">Войти</a>
+      <li v-else>
+        <router-link to="/login">Войти</router-link>
       </li>
-      </ul>
-    </div>
-  </nav>
+    </ul>
+  </div>
 </template>
-
 <script>
+import notification from "./Notification"
 export default {
   name: "navbar",
-  data: function() {
-    return {
-      username: String,
-      logged_in: Boolean
-    };
+  components: {
+    notification
   },
   computed: {
     user() {
       return this.$store.state.auth.user;
+    },
+    notifications(){
+      return this.$store.state.notifications.notifications;
     }
   },
-  mounted() {
+  created() {
+    this.$store.dispatch("notifications/getNotifications");
     this.$store.dispatch("auth/decodeUser");
+    this.$store.dispatch("auth/getBalance");
   },
   methods: {
     logout() {
@@ -92,19 +98,92 @@ export default {
 };
 </script>
 
-<style scoped>
-.navbar-nav {
-    position: static;
+<style>
+.navbar {
+  width: 100%;
+  /* font-size: 18px; */
+  position: fixed;
+  top: 300;
+  z-index: 10;
 }
-.navbar-nav .dropdown-menu {
-  position: static;
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  padding: 0 15%;
+  opacity: 0.8;
+  background-color: gray;
+  text-align: right;
+}
+li {
+  float: left;
+}
+.dropdown .dropbtn {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  color: white;
+  background-color: inherit;
+  font-family: inherit;
+  margin: 0;
+}
+li a,
+.dropbtn {
+  display: inline-block;
+  color: white;
+  text-align: center;
+  padding: 10px 12px;
+  text-decoration: none;
+}
+li a:hover,
+.dropdown:hover .dropbtn {
+  color: black;
+  background-color: white;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+}
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+.dropdown-content a:hover {
+  color: white;
+  background-color: gray;
+}
+li:nth-child(4),
+li:nth-child(5),
+li:nth-child(6) {
   float: none;
+  display: inline-block;
 }
-.dropdown-menu {
-  position: absolute;
+
+.show {
+  display: block;
 }
-.dropdown-menu.show {
-  position: absolute;
+
+@media screen and (max-width: 767px) {
+  li a,
+  li button {
+    padding: 10px 8px;
+  }
+}
+
+@media screen and (max-width: 1280px) {
+  ul {
+    padding: 0 0;
+  }
+  .dropdown-content {
+    right: 0;
+    left: auto;
+  }
 }
 </style>
 

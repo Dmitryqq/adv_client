@@ -2,33 +2,103 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-  <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
     <link rel="stylesheet" href="style.css">
-  <script src="https://kit.fontawesome.com/6dec05b8d5.js" crossorigin="anonymous"></script>
-  <title>adv_client</title>
+    <script src="https://kit.fontawesome.com/6dec05b8d5.js" crossorigin="anonymous"></script>
+    <title>adv_client</title>
 </head>
 
 <body>
-  <noscript>
+    <noscript>
     <strong>We're sorry but adv_client doesn't work properly without JavaScript enabled. Please enable it to
       continue.</strong>
   </noscript>
-  <div id="app"></div>
-  <!-- built files will be auto injected -->
-  <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-    crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
     integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
     crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
     integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
     crossorigin="anonymous"></script> -->
+    <script>
+        // $(document).ready(function() {
+        //     // $("#responsive").show('slow');
+        //     $(window).scroll(function(e) {
+        //         e.preventDefault();
+        //         console.log($(document).height() + '-' + $(window).scrollTop());
+        //         if ($(window).scrollTop() >= 400) {
+        //             $(".page-header").fadeIn();
+        //         } else {
+        //             $(".page-header").fadeOut();
+        //         }
+        //     });
+        // });
+        $(window).scroll(function() {
+            // console.log($(".page-header").css("padding-top"));
+            $("#responsive").css("opacity", 1 - ($(window).scrollTop() / 1.1) / ($('#responsive').height() / 2));
+            if ($(window).scrollTop() < 300) {
+                if ($(window).scrollTop() <= 40) {
+                    $(".page-header").css("padding-top", 40 - $(window).scrollTop());
+                    $(".navbar").css("top", 300 - $(window).scrollTop() + (40 - $(window).scrollTop()));
+                } else {
+                    $(".page-header").css("padding-top", 0);
+                    $(".navbar").css("top", 300 - $(window).scrollTop());
+                }
+            } else {
+                $(".navbar").css("top", 0);
+            }
+        });
+
+        function showNotifications() {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            for (var i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+            document.getElementById("notificationsDropdown").classList.toggle("show");
+        }
+
+        function showMenu() {
+            var dropdowns = document.getElementsByClassName("notification-block");
+            for (var i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+            document.getElementById("menuDropdown").classList.toggle("show");
+        }
+
+        window.onclick = function(event) {
+            if (!event.target.matches('.dropbtn') && !event.target.matches('.fa') && !event.target.matches('.badge')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                for (var i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+                if (!event.target.matches('.notification-block') && !event.target.matches('.element') && !event.target.matches('.element-body') && !event.target.matches('#x')) {
+                    dropdowns = document.getElementsByClassName("notification-block");
+                    for (var i = 0; i < dropdowns.length; i++) {
+                        var openDropdown = dropdowns[i];
+                        if (openDropdown.classList.contains('show')) {
+                            openDropdown.classList.remove('show');
+                        }
+                    }
+                }
+            }
+        }
+    </script>
 </body>
 
 </html>
