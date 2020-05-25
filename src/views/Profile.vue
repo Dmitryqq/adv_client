@@ -1,6 +1,5 @@
 <template>
     <panel header = "Профиль">
-    Width: {{windowWidth}}
     <div class="profile shadow">
         <div class="form-group green-border-focus">
             <div class="container">
@@ -61,11 +60,6 @@ import panel from '../components/Panel.vue'
 export default {
     components: {
         panel
-    },
-    data(){
-        return{
-            windowWidth: 0,
-        }
     },
     // watch: {
     //     windowHeight(newHeight, oldHeight){

@@ -10,6 +10,7 @@ import channels from './modules/channels'
 // import user from "./modules/user";
 import auth from "./modules/auth";
 import notifications from "./modules/notifications";
+import statistics from "./modules/statistics";
 
 Vue.use(Vuex)
 
@@ -23,7 +24,8 @@ export default new Vuex.Store({
         channels,
         // user,
         auth,
-        notifications
+        notifications,
+        statistics
     },
     state: {
         apiPrefix: 'http://192.168.0.105:3000/api'

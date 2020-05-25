@@ -24,6 +24,8 @@
                   if (dtoken.enabled == true) {
                       localStorage.setItem('token', token);
                       dispatch("decodeUser");
+                      dispatch("getBalance");
+                      dispatch("notifications/getNotifications", {}, { root: true });
                   } else {
                       throw new Error("Учетная запись деактивирована")
                   }
@@ -41,10 +43,11 @@
 
       async getBalance({ state, dispatch, rootState }) {
           try {
-              const token = localStorage.getItem('token')
-              const response = await axios.get(rootState.apiPrefix + '/users/balance', { headers: { 'Authorization': 'Bearer ' + token } })
-              state.user.balance = response.data;
-              console.log(state.user)
+              if (state.user != null) {
+                  const token = localStorage.getItem('token')
+                  const response = await axios.get(rootState.apiPrefix + '/users/balance', { headers: { 'Authorization': 'Bearer ' + token } })
+                  state.user.balance = response.data;
+              }
           } catch (err) {
               dispatch('handleError', err.response, { root: true });
               throw (err);
@@ -77,21 +80,6 @@
   };
 
   const mutations = {
-      // [AUTH_REQUEST]: state => {
-      //     state.status = "loading";
-      // },
-      // [AUTH_SUCCESS]: (state, response) => {
-      //   state.status = "success";
-      //   state.token = response.token;
-      //   state.hasLoadedOnce = true;
-      // },
-      // [AUTH_ERROR]: state => {
-      //   state.status = "error";
-      //   state.hasLoadedOnce = true;
-      // },
-      // [AUTH_LOGOUT]: state => {
-      //   state.token = "";
-      // }
       setUser(state, user) {
           state.user = user;
       },

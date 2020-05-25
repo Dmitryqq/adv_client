@@ -10,23 +10,33 @@
           <span>{{advertisement.adv_text}}</span>
         </summary>
         <!-- Каналы -->
-        <details v-for="adv_channel in advertisement.adv_channels" :key="adv_channel.id">
+        <details v-for="adv_channel in advertisement.adv_channels" :key="adv_channel.id" open>
           <summary style="width: 97%; margin-left: -1.5em;" :tabindex="adv_channel.id">
             <span>{{adv_channel.channel.name}}</span>
             <span class="status">{{adv_channel.status.name}}</span>
           </summary>
-          <div class="col">
-            Стоимость: {{adv_channel.total_price}}
-            Тариф: {{adv_channel.tariff.type}}
+          <div class="row">
+
+          <div class="column left">
+            Тариф: {{adv_channel.tariff.type}} <br>
+            Стоимость: {{adv_channel.total_price}} сом <br>
+            Кол-во дней: {{adv_channel.dates.length}} <br>
+            Даты: <ul style="background-color: transparent; margin-left: 20px; padding: 0px;"><li v-for="date in adv_channel.dates" :key="date.id" style="float:none; text-align:left; list-style-type: disc;">
+              {{date.date}};
+            </li></ul>
           </div>
-          <div class="col">
+          <div class="column right">
             <vc-calendar
               mode="multiple"
               color="teal"
               :attributes="generateAttributes(adv_channel.dates)"
             />
           </div>
+          
+          </div>
+          <button v-if="adv_channel.status.id == 1" class="button button1" @click="toPayPage(advertisement, adv_channel)">К оплате</button>
         </details>
+        <button class="button button1" v-if="getUnpaid(advertisement.adv_channels)" @click="toPayPage(advertisement, advertisement.adv_channels)">К оплате</button>
         <!-- конец -->
       </details>
     </main>
@@ -86,6 +96,32 @@ export default {
         }
       ];
       return attribut;
+    },
+    getUnpaid(adv_channels){
+      let counter = 0;
+      adv_channels.forEach(element => {
+        if(element.status.id == 1)
+          counter +=1;
+      });
+      if(counter <= 1)
+        return false
+      else
+        return true
+    },
+    toPayPage(advertisement, channel){
+      this.$router.replace({name:'payment', params:{advertisement, channel}});
+      // this.$store
+      //   .dispatch("advertisements/Pay", {advertisement, channel})
+      //   .then(()=>{
+      //       this.$store.dispatch("advertisements/getMyAdvertisements")
+      //       this.$store.dispatch("notifications/getNotifications");
+      //   })
+      //   .catch(err => {
+      //     this.error = err.message;
+      //   })
+      //   .finally(() => {
+      //     this.isLoading = false;
+      //   });
     }
   }
 };
@@ -94,7 +130,7 @@ export default {
 <style>
 .dashboard {
   width: 70%;
-  margin: auto;
+  margin: 90px auto 50px auto;
   padding-bottom: 20px;
   background: #f0f0f0d3;
   outline: 3px solid gray;
@@ -102,6 +138,22 @@ export default {
 }
 .dashboard-label {
   padding: 10px;
+}
+.column {
+  float: left;
+  width: 50%;
+}
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.left{
+  width: 40%;
+}
+.right{
+  width: 60%;
 }
 .status {
   font-weight: right;
@@ -111,9 +163,8 @@ export default {
   border-bottom: none;
 }
 @media screen and (max-width: 1280px) {
-  .dashboard{
-      width: 90%;
-      margin: 20px 5% 0;
+  .dashboard {
+    width: 90%;
   }
 }
 /* @media screen and (max-width: 767px) {

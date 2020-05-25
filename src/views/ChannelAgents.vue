@@ -123,6 +123,7 @@ export default {
 <style scoped>
 table{
     word-break: break-all;
+    border: 1px solid rgba(131, 123, 123, 0.397);
     text-align-last: left;
     height: 100%;
 }

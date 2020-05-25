@@ -9,8 +9,10 @@ const actions = {
     async getNotifications({ dispatch, rootState, commit }) {
         try {
             const token = localStorage.getItem('token')
-            const response = await axios.get(rootState.apiPrefix + '/notifications', { headers: { 'Authorization': 'Bearer ' + token } })
-            commit('setNotifications', response.data);
+            if (token) {
+                const response = await axios.get(rootState.apiPrefix + '/notifications', { headers: { 'Authorization': 'Bearer ' + token } })
+                commit('setNotifications', response.data);
+            }
         } catch (err) {
             dispatch('handleError', err.response, { root: true });
             throw (err);

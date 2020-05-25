@@ -30,9 +30,10 @@ export default {
 }
 .panel {
   box-shadow: 0 0px 0px #ccc;
-  margin: auto;
+    margin: 90px auto 50px auto;
   width: 70%;
-  padding-top: 20px;
+  padding-top: 50px;
+  padding-bottom: 30px;
   font-size: 100%;
 }
 @media screen and (max-width: 1280px) {

@@ -26,6 +26,10 @@
               :attributes="generateAttributes(adv_channel.dates)"
             />
           </div>
+          <div class="buttons" v-if="adv_channel.status.id == 2">
+            <button class="button button1" @click="accept(adv_channel.advertisement, channelAgent.channel)">Одобрить</button>
+            <button class="button button2" @click="reject(adv_channel.advertisement, channelAgent.channel)">Отклонить</button>
+          </div>
         </details>
       </details>
     </main>
@@ -111,21 +115,40 @@ export default {
     },
     changePage(pageNumber) {
       if (pageNumber !== this.currentPage) this.currentPage = pageNumber;
+    },
+    accept(advertisement, channel){
+      this.$store
+        .dispatch("advertisements/accept", {advertisement, channel})
+        .then(()=>{
+            this.$store.dispatch("advertisements/getAdsOnMyChannel")
+            this.$store.dispatch("notifications/getNotifications");
+        })
+        .catch(err => {
+          this.error = err.message;
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    },
+    reject(advertisement, channel){
+      this.$store
+        .dispatch("advertisements/reject", {advertisement, channel})
+        .then(()=>{
+            this.$store.dispatch("advertisements/getAdsOnMyChannel")
+            this.$store.dispatch("notifications/getNotifications");
+        })
+        .catch(err => {
+          this.error = err.message;
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
     }
   }
 };
 </script>
 
 <style>
-.ads_on_my_channel {
-  width: 90%;
-  margin: auto;
-  padding: 20px;
-  margin-top: 20px;
-  background: #f0f0f0d3;
-  outline: 3px solid gray;
-  outline-style: auto;
-}
 .status {
   font-weight: right;
   text-align: right;

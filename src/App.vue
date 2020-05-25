@@ -2,7 +2,7 @@
   <div id="app">
     <Header />
     <navbar />
-    <router-view></router-view>
+    <router-view style="min-height: 40vh"></router-view>
     <Footer />
   </div>
 </template>
@@ -29,4 +29,11 @@ export default {
 
 <style lang="scss">
 @import './assets/style.scss';
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI';
+    min-height: 100vh;
+}
 </style>

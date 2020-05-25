@@ -1,14 +1,12 @@
 <template>
     <panel header = "Список каналов">
-        <table border="1" width="100%">
+        <table width="100%">
             <tr>
                 <td><b>№</b></td>
                 <td><b>name</b></td>
                 <td><b>description</b></td>
                 <td><b>logo</b></td>
                 <td><b>Макс. в день</b></td>
-                <td><b>create_date</b></td>
-                <td><b>update_date</b></td>
                 <td></td>
                 <td></td>
             </tr>
@@ -18,9 +16,6 @@
                 <td>{{ channel.description }}</td>
                 <td><img class="channel-logo" :src="logoPrefix + channel.logo"></td>
                 <td>{{ channel.max_ads_per_day }}</td>
-                <td>{{ format_date(channel.create_date) }}</td>
-                <td v-if="channel.update_date">{{ format_date(channel.update_date) }}</td>
-                <td v-else></td>
                 <td></td>
                 <td></td>
             </tr>
@@ -30,8 +25,6 @@
                 <td><input type="text" name="name" v-model="channel.description"></td>
                 <td><input type="file" accept="image/*" @change="onImageChanged($event)" id="file-input"></td>
                 <td><input type="number" min="0" name="name" v-model="channel.max_ads_per_day"></td>
-                <td></td>
-                <td></td>
                 <td></td>
                 <td><button @click="addChannel()">Добавить</button></td>
             </tr>
@@ -138,7 +131,7 @@ table, th, td {
     max-height: 50px;
     /* text-align: center; */
     word-break: normal;
-    border: 1px solid rgba(131, 123, 123, 0.349);
+    border: 1px solid rgba(131, 123, 123, 0.397);
 }
 td:nth-child(1){
     width: 1%;

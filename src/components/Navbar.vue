@@ -1,5 +1,5 @@
 <template>
-  <div class="navbar">
+  <div id="navbar">
     <ul class="navbar-ul">
       <li>
         <router-link to="/">Главная</router-link>
@@ -10,24 +10,9 @@
       <li>
         <router-link to="/about">О нас</router-link>
       </li>
-      <!-- <li v-if="user!=null">
-        <a href="#">
-          <i class="fa fa-bell fa-md">
-            <span class="badge badge-info">11</span>
-          </i>
-        </a>
-      </li>-->
-      <!-- <li class="dropdown" v-if="user!=null">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Messages<span>8</span></a>
-        <div class="dropdown-content">
-          <router-link to="/ads" class="dropdown-item">Мои объявления</router-link>
-          <router-link to="/profile" class="dropdown-item">Настройки</router-link>
-          <router-link to="/adsonmychannels" class="dropdown-item">Рекламы на моих каналах</router-link>
-        </div>
-      </li>-->
-      <li>
-        <a style="cursor: default">{{user.balance}} сом</a>
-      </li>
+      <!-- <li>
+        <a style="cursor: default" v-if="user!=null">{{user.balance}} сом</a>
+      </li> -->
       <li class="dropdown" v-if="user!=null">
         <button class="dropbtn" onclick="showNotifications()">
           <i class="fa fa-bell fa-md">
@@ -43,15 +28,17 @@
           <i class="fa fa-caret-down"></i>
         </button>
         <div class="dropdown-content" id="menuDropdown">
+          <a style="cursor: default; height: 50px;">Текущий баланс аккаунта: <b>{{user.balance}} сом</b></a>
           <router-link to="/ads" class="dropdown-item">Мои объявления</router-link>
           <router-link to="/" class="dropdown-item">Пополнить счёт</router-link>
           <router-link to="/profile" class="dropdown-item">Настройки</router-link>
-          <router-link to="/adsonmychannels" class="dropdown-item">Рекламы на моих каналах</router-link>
           <div v-if="user.role == 'Главный администратор'">
             <router-link to="/channels" class="dropdown-item">Каналы</router-link>
             <router-link to="/channels/admins" class="dropdown-item">Админы каналов</router-link>
             <router-link to="/channels/agents" class="dropdown-item">Агенты каналов</router-link>
             <router-link to="/channels/tariffs" class="dropdown-item">Тарифы каналов</router-link>
+            <router-link to="/statistics" class="dropdown-item">Статистика</router-link>
+            <router-link to="/adsonmychannels" class="dropdown-item">Рекламы на моих каналах</router-link>
           </div>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href @click="logout">Выйти</a>
@@ -99,17 +86,22 @@ export default {
 </script>
 
 <style>
-.navbar {
+#navbar {
   width: 100%;
-  /* font-size: 18px; */
-  position: fixed;
-  top: 300;
+  position: relative;
+  /* position: fixed;
+  top: 300; */
+  overflow: hidden;
   z-index: 10;
+}
+.sticky {
+  position: fixed !important;
+  top: 0;
+  width: 100%;
 }
 ul {
   list-style-type: none;
   margin: 0;
-  padding: 0;
   padding: 0 15%;
   opacity: 0.8;
   background-color: gray;
@@ -120,6 +112,8 @@ li {
 }
 .dropdown .dropbtn {
   cursor: pointer;
+  /* font-size: 18px; */
+
   border: none;
   outline: none;
   color: white;
@@ -142,13 +136,14 @@ li a:hover,
 }
 .dropdown-content {
   display: none;
-  position: absolute;
+  position:fixed;
   background-color: #f9f9f9;
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
 }
 .dropdown-content a {
   color: black;
+  max-width: 230px;
   padding: 12px 16px;
   text-decoration: none;
   display: block;
@@ -183,6 +178,11 @@ li:nth-child(6) {
   .dropdown-content {
     right: 0;
     left: auto;
+  }
+}
+@media screen and (min-width: 1280px) {
+  .dropbtn {
+    font-size: 17px;
   }
 }
 </style>

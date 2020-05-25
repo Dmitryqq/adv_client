@@ -34,7 +34,7 @@ export default {
   max-height: 300px;
   display: none;
   margin-left: -315px;
-  position: absolute;
+  position: fixed;
   background-color: white;
   border: 2px solid gray;
   border-radius: 00px 0px 10px 10px;
@@ -42,6 +42,7 @@ export default {
   color: black;
   overflow: auto;
   transition: max-height 0.25s ease-in;
+  z-index: 10;
 }
 
 @media screen and (max-width: 767px) {

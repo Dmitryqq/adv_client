@@ -5,7 +5,7 @@
                 <textarea class="adv-text" v-on:input="countLetters" v-model="adv_text"></textarea>
                 <label>Длина: {{length}}, букв: {{letters}}, слов: {{words}}</label>
         </div>
-        <div class="adv_channels shadow">
+        <div class="adv_channels">
             <table id="t01" style="width:100%">
                 <tr>
                     <td></td>
@@ -38,12 +38,13 @@
                     <td v-if="channel.checked">
                         <vc-date-picker class="date-picker" mode="multiple" color='teal' :min-date='new Date()' v-model='channel.dates' :masks="{ input: 'DD.MM', data: 'DD/MM/YYYY' }" :input-props='{
                             placeholder: "Выберите даты",
-                            readonly: true
+                            readonly: true,
                         }'
                         @input="methodThatForcesUpdate()"/>
                     </td>
                     <td v-else><input class="date-picker-disabled" disabled/></td>
-                    <td v-if="channel.tariff && channel.dates && channel.dates.length>0">{{channel.tariff.price * letters * channel.dates.length}} сом</td>
+                    <td v-if="channel.tariff && channel.tariff.tariff.id == 1 && channel.dates && channel.dates.length>0">{{channel.tariff.price * letters * channel.dates.length}} сом</td>
+                    <td v-else-if="channel.tariff && channel.tariff.tariff.id == 2 && channel.dates && channel.dates.length>0">{{channel.tariff.price * words * channel.dates.length}} сом</td>
                     <td v-else></td>
                 </tr>
                 <tr>
@@ -115,6 +116,7 @@ export default {
                             advChannel.advertisementId = res.id;
                             advChannel.tariffId = channel.tariff.tariff.id;
                             advChannel.statusId = 1;
+                            advChannel.days = channel.dates.length;
                             this.$store.dispatch('advertisements/addAdvertisementChannel', advChannel)
                             .then((res) => {
                                 let advChannelDates = {};
@@ -205,7 +207,10 @@ export default {
             let sum = 0
             this.channels.forEach(channel => {
                 if(channel.checked && channel.tariff && channel.dates && channel.dates.length)
-                    sum += channel.tariff.price * this.letters * channel.dates.length;
+                    if(channel.tariff.tariff.id == 1)
+                        sum += channel.tariff.price * this.letters * channel.dates.length;
+                    else
+                        sum += channel.tariff.price * this.words * channel.dates.length;
             });
             return sum;
         },
@@ -234,40 +239,18 @@ select option:disabled{
 
     padding-bottom: 100px;
 }
-/* .advcreate::after{
-    content: "";
-    background-image: url("../../public/Creative-calligraphic-text-vector.jpg");
-    background-color: #cccccc;
-    background-position: left;
-    background-repeat: repeat;
-    background-size: 300px;
-    top: 300;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    position: absolute;
-    height: calc(100% + 200px);
-    z-index: -1;   
-    opacity: 0.5;
-} */
 .adv_text, .adv_channels{
     width: 70%;
     margin: 0 15%;
-    padding: 40px 10px 10px 10px;
+    padding: 20px 10px 10px 10px;
     color: black;
     background-image: url("../../public/adv_text_background.png");
     background-size: 100% 120%;
     background-position: center;
     box-shadow: 5px 5px 20px 3px #696969;
-
-
-    /* background: white; */
-    /* outline: 3px solid gray; */
 }
 .adv_channels{
     margin-top: 20px;
-    /* background: #f0f0f0d3; */
-    /* outline-style: auto; */
 }
 textarea {
   width: 96%;
@@ -291,10 +274,11 @@ table, th, td {
     /* height: 50px; */
     word-break:normal;
     text-align: center;
-    border: 1px solid rgba(131, 123, 123, 0.349);
+    /* border: 1px solid rgba(131, 123, 123, 0.349); */
 }
 .date-picker /deep/ input {
     display: block !important;
+    max-width: 200px;
     width: 92% !important;
     color: #495057 !important;
     background-color: #fff !important;
@@ -396,12 +380,6 @@ table#t01 tr:last-child {
   height: auto;
 }
 
-@media screen and (min-width: 1280px) {
-  div, .dropbtn {
-    font-size: 18px;
-  }
-}
-
 @media screen and (max-width: 1280px) {
   div, .dropbtn {
     font-size: 18px;
@@ -431,12 +409,35 @@ table#t01 tr:last-child {
       padding-left: 0.15rem;
       padding-right: 0.15rem;
   }
+    
   .w-full{
       min-width: 25px;
   }
   .adv_text, .adv_channels{
       width: 90%;
       margin: 0 2% 10px;
+  }
+}
+@media screen and (max-width: 500px) {
+  
+  .adv_channels tr:not(:first-child) td:nth-child(2) {
+        visibility: hidden;
+        width: auto;
+        max-width: 0px;
+    }
+    .adv_channels tr:last-child td:nth-child(2) {
+        visibility:visible;
+    }
+    .adv_channels td:nth-child(6) {
+        width: 40%;
+    }
+    input[type="checkbox"].switch_1{
+	width: 2.5em;
+	height: 1.0em;
+  }
+  input[type="checkbox"].switch_1:after{
+	width: 1.0em;
+	height: 1.0em;
   }
 }
 </style>

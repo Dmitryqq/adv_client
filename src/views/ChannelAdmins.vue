@@ -129,6 +129,7 @@ export default {
 
 <style>
 table {
+    border: 1px solid rgba(131, 123, 123, 0.397);
   word-break: break-all;
   text-align-last: left;
   height: 100%;

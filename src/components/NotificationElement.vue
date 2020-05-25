@@ -23,7 +23,8 @@ export default {
 .element {
   text-align: left;
   width: 84%;
-  height: 40px;
+  height: auto;
+  min-height: 40px;
   /*border-radius: 25px;*/
   border: 2px solid gray;
   padding: 5px 8% 10px 1%;

@@ -10,6 +10,8 @@ import ChannelAdmins from './views/ChannelAdmins'
 import ChannelAgents from './views/ChannelAgents'
 import ChannelTariffs from './views/ChannelTariffs'
 import Profile from './views/Profile'
+import Payment from './views/Payment'
+import Statistics from './views/Statistics'
 
 
 
@@ -43,6 +45,9 @@ const routes = [
     { path: '/channels/tariffs', component: ChannelTariffs, meta: { requiresAuth: true } },
     { path: '/login', component: Login },
     { path: '/register', component: Register },
+    { path: '/payment', name: 'payment', component: Payment, props: true },
+    { path: '/statistics', component: Statistics, meta: { requiresAuth: true } },
+
 ]
 
 export default routes;
